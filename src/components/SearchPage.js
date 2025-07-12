@@ -2,6 +2,25 @@ import { useState, useEffect } from 'react'
 import SongCard from './SongCard'
 import { searchSongs } from '../lib/deezer'
 
+/**
+* @typedef {Object} Song
+ * @property {number} id - Unique identifier of the song.
+ * @property {string} title - Song title.
+ * @property {string} preview - URL of the song's audio preview.
+ * @property {Object} artist - Artist information.
+ * @property {string} artist.name - Name of the artist.
+ * @property {Object} album - Album information.
+ * @property {string} album.cover_medium - Album cover URL (medium size).
+ */
+
+/**
+ * SearchPage component allows you to view popular songs or search for specific songs.
+ * Manage active tab status, search query, song results and search status.
+ * 
+ * @component
+ * @returns {JSX.Element} Componente de página para búsqueda y listado de canciones.
+ */
+
 export default function SearchPage() {
   const [activeTab, setActiveTab] = useState('popular')
   const [query, setQuery] = useState('')
