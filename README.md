@@ -1,40 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+🎵 My Music App
+Web application developed with Next.js that allows you to search for songs using the Deezer public API. Displays popular songs by default and allows interactive searches by artist or song title.
 
-## Getting Started
+📦 Project Structure
+my-music/
+├── package.json
+├── src/
+│ ├── components/
+│ │ ├── SongCard.js # Visual component to display a song
+│ │ └── searchPage.js # Main component with tabs and search logic
+│ ├── lib/
+│ │ └── deezer.js # Function to consume the Deezer API from the client
+│ ├── pages/
+│ │ ├── api/
+│ │ │ └── search.js # API route in Next.js to proxy searches to Deezer
+│ │ ├── _app.js # Entry point that loads global styles
+│ │ └── index.js # Parent page that imports SearchPage
+│ └── styles/
+│ └── globals.css # Global styles with Tailwind CSS
 
-First, run the development server:
+🧠 Architecture and Operation
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. 🧩 Frontend (React/Next.js)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+SearchPage.js handles two tabs: Popular and Search.
+Use useState and useEffect to load data based on the active tab.
+The SongCard component shows cover art, title, artist and an audio preview.
+Styles managed with Tailwind CSS.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+2. 🛰️ API Interna (/api/search.js)
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+Implement a backend proxy to query the Deezer API, avoiding CORS.
+If there is no query (q), returns popular songs (/chart).
+If there is a search, see https://api.deezer.com/search?q=<query>.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+3. 🌐 Client-Server
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The client calls /api/search?q=... using fetch.
+The logic to consume this route is encapsulated in lib/deezer.js.
 
-## Learn More
+🔧 Production Units
 
-To learn more about Next.js, take a look at the following resources:
+Package     Version     Description
+next        15.3.5      React Framework for SSR and SSG
+react       ^19.0.0     UI Library
+react-dom   ^19.0.0     Rendering the DOM with React
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+🛠️ Development Units
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Package             Version     Use
+tailwindcss         ^3.4.1      CSS Framework utility-first
+eslint              ^9          JavaScript code linter
+prettier            ^3.6.2      Code formatter
+autoprefixer        ^10.4.21    Add CSS prefixes automatically
+postcss             ^8.5.6      Tool for processing CSS
+eslint-config-next  15.3.5      ESLint configuration for Next.js
+@eslint/eslintrc    ^3 Advanced ESLint Configuration
 
-## Deploy on Vercel
+⚙️ Development Scripts
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+npm run dev     # Run the development server
+npm run build   # Build the application for production
+npm run start   # Start the app in production mode
+npm run lint    # Run linter (ESLint)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+🎯 Key Features
+
+✅ Intuitive interface with tabs to explore and search.
+
+✅ Song preview playback.
+
+✅ Responsive and modern design with Tailwind.
+
+✅ Error handling and friendly UX if there are no results.
+
+✅ Secure consumption of Deezer API using proxy with Next.js.
