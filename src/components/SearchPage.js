@@ -1,34 +1,3 @@
-/**
- * SearchPage Component
- *
- * This component renders a music search and discovery page with two tabs:
- * - "Popular": Displays a list of popular songs by default using the Deezer API.
- * - "Search": Allows users to search for songs or artists.
- *
- * State:
- * - `activeTab` (string): Controls the current tab (either 'popular' or 'search').
- * - `query` (string): Stores the user’s input for the search query.
- * - `songs` (array): Holds the list of songs returned by the Deezer API.
- *
- * Side Effects:
- * - On mount or when `activeTab` changes, it fetches popular songs if the active tab is 'popular'.
- *
- * Functions:
- * - `handleSearch`: Fetches songs based on the `query` value and sets them in state.
- *
- * UI Elements:
- * - Tab buttons to toggle between "Popular" and "Search" views.
- * - Search input field and button.
- * - Message display when no songs are found.
- * - Song grid using the `SongCard` component.
- *
- * Dependencies:
- * - React hooks (`useState`, `useEffect`)
- * - `SongCard` component for displaying individual songs.
- * - `searchSongs` helper from `../lib/deezer` for fetching song data.
- *
- */
-
 import { useState, useEffect } from 'react'
 import SongCard from './SongCard'
 import { searchSongs } from '../lib/deezer'
@@ -37,6 +6,7 @@ export default function SearchPage() {
   const [activeTab, setActiveTab] = useState('popular')
   const [query, setQuery] = useState('')
   const [songs, setSongs] = useState([])
+  const [hasSearched, setHasSearched] = useState(false)
 
   useEffect(() => {
     if (activeTab === 'popular') {
@@ -45,16 +15,16 @@ export default function SearchPage() {
         setSongs(popularSongs)
       }
       fetchPopular()
-    } else {
-      setSongs([])
+      setHasSearched(false)
     }
   }, [activeTab])
 
   const handleSearch = async () => {
-    if (!query) return
+    if (!query.trim()) return
     const results = await searchSongs(query)
     setSongs(results)
     setActiveTab('search')
+    setHasSearched(true)
   }
 
   return (
@@ -66,7 +36,14 @@ export default function SearchPage() {
         {['popular', 'search'].map((tab) => (
           <button
             key={tab}
-            onClick={() => setActiveTab(tab)}
+            onClick={() => {
+              setActiveTab(tab)
+              if (tab === 'search') {
+                setQuery('')
+                setSongs([])
+                setHasSearched(false)
+              }
+            }}
             className={`
               relative py-2 px-6 font-semibold transition-colors duration-300
               ${activeTab === tab ? 'text-black' : 'text-gray-500 hover:text-black'}
@@ -95,7 +72,7 @@ export default function SearchPage() {
         }
       `}</style>
 
-      {/* Contenido según pestaña */}
+      {/* Campo de búsqueda */}
       {activeTab === 'search' && (
         <div className="flex gap-2 mb-6">
           <input
@@ -131,10 +108,12 @@ export default function SearchPage() {
               d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
             />
           </svg>
-          <p className="text-lg">
+          <p className="text-lg text-center">
             {activeTab === 'popular'
               ? 'No hay canciones populares para mostrar'
-              : 'Empieza buscando una canción o artista'}
+              : hasSearched
+                ? 'No se encontraron resultados'
+                : 'Empieza buscando una canción o artista'}
           </p>
         </div>
       )}
