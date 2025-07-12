@@ -1,8 +1,29 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/**
+ * @property {color} --background - Defines the background color for the light theme.
+ * - In light mode: #ffffff (white)
+ * @property {color} --foreground - Defines the foreground (text) color for the light theme.
+ * - In light mode: #171717 (very dark gray)
+ */
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
 }
 
+/**
+ * @media (prefers-color-scheme: dark)
+ * Defines CSS custom properties for dark mode, applied when the user's system
+ * prefers a dark color scheme.
+ *
+ * @property {color} --background - Overrides the background color for the dark theme.
+ * - In dark mode: #0a0a0a (almost black)
+ * @property {color} --foreground - Overrides the foreground (text) color for the dark theme.
+ * - In dark mode: #ededed (very light gray)
+ */
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -10,33 +31,4 @@
   }
 }
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-}
