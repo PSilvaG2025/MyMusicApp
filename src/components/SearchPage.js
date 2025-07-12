@@ -1,20 +1,7 @@
 import { useState, useEffect } from 'react'
 import SongCard from './SongCard'
 import { searchSongs } from '../lib/deezer'
-/**
- * SearchPage es el componente principal que permite al usuario ver canciones populares
- * o buscar canciones por nombre o artista, alternando entre dos pestañas.
- *
- * Funcionalidades:
- * - Muestra automáticamente canciones populares al cargar.
- * - Permite cambiar entre pestañas "Populares" y "Buscar".
- * - Permite realizar búsquedas por nombre o artista usando una API local.
- * - Muestra mensajes adecuados si no hay resultados.
- * - Renderiza las canciones como tarjetas con imagen, título, artista y preview de audio.
- *
- * @component
- * @returns {JSX.Element} Página de búsqueda y descubrimiento de canciones.
- */
+
 export default function SearchPage() {
   const [activeTab, setActiveTab] = useState('popular')
   const [query, setQuery] = useState('')
